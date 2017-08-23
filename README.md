@@ -4,11 +4,13 @@
 
 | Internet Explorer 	| Edge 	| Chrome 	| Firefox 	| Safari 	|
 |-------------------	|------	|--------	|---------	|--------	|
-| 11  (no animations)	|  40 √ |   60 √ 	|    55 √  	|   10 √ 	|
+| 11  (no animations)|  40   |   60   	|    55   	|   10   	|
 
 ### Demo:
 
 ##### [Click me](http://wladi0097.github.io/pdfV)
+
+using the ``demo/yes.pdf`` and ``demo/main.js``
 
 ## Basic feature list:
 
