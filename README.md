@@ -8,7 +8,7 @@
 
 ### Demo:
 
-##### [Click me](http://wladi0097.github.io/pdfV/demo)
+##### [Click me](http://wladi0097.github.io/pdfV)
 
 ## Basic feature list:
 
@@ -64,4 +64,4 @@ Basically, do what you want.
  * [pdf.js](https://mozilla.github.io/pdf.js/) the Mozilla pdf worker
 
 ### License
-* [MIT]()
+* [MIT](https://github.com/wladi0097/pdfV/blob/origin/master/LICENSE)
