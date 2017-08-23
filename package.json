@@ -1,0 +1,27 @@
+{
+  "name": "pdfv",
+  "version": "0.1.0",
+  "description": "A Booklike pdf Viewer",
+  "main": "pdf.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wladi0097/pdfV.git"
+  },
+  "keywords": [
+    "pdf"
+  ],
+  "author": "Koschemako Wladislaw",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wladi0097/pdfV/issues"
+  },
+  "homepage": "https://github.com/wladi0097/pdfV#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^3.0.0"
+  }
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>pdfV demo</title>
+    <!-- The css of the PdfV -->
+    <link rel="stylesheet" href="../css/style.min.css">
+
+    <!-- You can remove that -->
+    <style media="screen">
+      body{
+        background-color: #424242;
+      }
+      h1{
+        color: white;
+        text-align: center;
+        font-family: Helvetica, Arial, Sans-Serif;
+      }
+      #pdfViewer{
+        border-top: 1px solid #fff;
+        border-bottom: 1px solid #fff;
+      }
+      .button{
+        width: 100%;
+        text-align: center;
+      }
+      .button>a{
+        display: inline-block;
+        margin: 20px;
+        background-color: #e74c3c;
+        text-decoration: none;
+        color: white;
+        padding: 10px;
+        font-size: 20px;
+        border-radius: 5px;
+        font-family: Helvetica, Arial, Sans-Serif;
+        transition: all .5s;
+      }
+      .button>a:hover{
+        background-color: #c0392b;
+      }
+    </style>
+
+  </head>
+  <body>
+    <h1>pdfV Demo</h1>
+    <div id="pdfViewer">
+
+    </div>
+
+    <!-- You can remove that -->
+    <div class="button">
+      <a href="https://github.com/wladi0097/pdfV">Code and Download</a>
+    </div>
+
+
+    <!-- The pdfV file -->
+    <script src="../build/pdfV.js"></script>
+
+    <!-- Your default .js file -->
+    <script src="./main.js" ></script>
+  </body>
+</html>

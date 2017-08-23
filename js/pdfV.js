@@ -1,6 +1,7 @@
 var pdfViewer = {
 
   pdfViewerElements: [],
+  iE: false,
 
 
   /*
@@ -12,6 +13,7 @@ var pdfViewer = {
   */
   new: function(init) {
     var _this = this;
+    this.iE = this.isIE()
 
     //first load the file
     this.loadPdfFile(init.file, function(pdf) {
@@ -36,6 +38,15 @@ var pdfViewer = {
       })
 
     })
+  },
+
+  /*
+   * Some features dont work in ie, so here is a test to disable them
+   * @returns {Bool} isIE - True if user is IE
+  */
+  isIE: function() {
+    userAgent = navigator.userAgent;
+    return userAgent.indexOf("MSIE ") > -1 || userAgent.indexOf("Trident/") > -1;
   },
 
 
@@ -111,21 +122,35 @@ var pdfViewer = {
   */
   loadPdfIntoCanvas: function(pdf, display) {
     _this = this;
+    if(display > pdf.pdfInfo.numPages)
+      return
     pdf.getPage(display).then(function (page) {
 
-    //prepare canvas
-    var scale = 1.5;
-    var viewport = page.getViewport(scale);
-    var canvas = document.getElementById(pdf.pdfInfo.fingerprint+'_'+ display);
+      var canvas = document.getElementById(pdf.pdfInfo.fingerprint+'_'+ display);
+      var renderContext = _this.prepareCanvas(canvas, page);
+      page.render(renderContext);
+
+    });
+  },
+
+  /*
+   * prepares the Canvas or the page
+   * @Param {domObj} canvas - the canvas to prepare
+   *        {obj} page - the pageto display
+   * @returns {obj} renderContext:
+   *                  canvasContext - the prepared canvas
+   *                  viewport  - page viewport
+  */
+  prepareCanvas: function(canvas, page) {
     canvas.className = 'loaded';
+
+    var viewport = page.getViewport(1.5);
+
     var context = canvas.getContext('2d');
     canvas.height = viewport.height;
     canvas.width = viewport.width;
 
-
-     //append canvas
-     var renderContext = { canvasContext: context, viewport: viewport };
-     page.render(renderContext); });
+    return { canvasContext: context, viewport: viewport }
   },
 
 
@@ -157,21 +182,27 @@ var pdfViewer = {
 
   /*
    * Loads the Pages when its needed
-   * @Param {obj} elems:
-   *                {domObj} dom - the next two fields
-   *                {domObj} dom2 - the next four fields
-   *                {string} fingerprint - to find the pdf
+   * @Param {domObj} elem - the next two fields
+   *        {int} len - how many to load
   */
-  lazyload: function(elems) {
-    doms = [elems.dom, elems.dom2];
-    for (var i = 0; i < 2; i++) {
+  lazyload: function(elem, len) {
+
+    for (var i = 0; i < len; i++) {
+
+      if(!elem.previousSibling)
+        return;
+      elem = elem.previousSibling
+
       for (var k = 0; k < 2; k++) {
-        var canvas = doms[i].children[k].children[0];
+
+        var canvas = elem.children[k].children[0];
+        // if the page isnt loaded yet
         if (canvas.className !== 'loaded') {
           var splited = canvas.id.split('_');
           this.loadPdfIntoCanvas(this.getPdfByFingerprint(splited[0]),
             parseInt(splited[1]))
         };
+
       }
     }
   },
@@ -181,20 +212,18 @@ var pdfViewer = {
    * Show next page of instance
   */
   nextPage: function(e) {
-    console.log(e);
     if(pdfViewer.inputBlockedByAnimation)
       return
+
     path = e.currentTarget.parentNode
 
     pdfViewer.animatePage(path, false, function() {
 
-      pdfViewer.lazyload({
-        dom: path.previousSibling,
-        dom2: path.previousSibling.previousSibling,
-        fingerprint: path.parentNode.parentNode,
-      })
+      // load next pages
+      pdfViewer.lazyload(path, 2)
 
     });
+
     pdfViewer.zIndexFix(path);
   },
 
@@ -243,11 +272,18 @@ var pdfViewer = {
    * @returns {bool} callback - after completed
   */
   animatePage: function(page, reverse, callback) {
-    this.inputBlockedByAnimation = true;
-    var animateDeg = (reverse) ? 180 : 0;
-    var id = setInterval(frame, 2);
 
-    var to = (reverse) ? 0 : 180;
+    // ie workaround
+    if (this.iE) {
+      this.animatePageIE(page, reverse);
+      callback = (callback === undefined) ? '': callback(true);
+      return;
+    }
+
+    this.inputBlockedByAnimation = true;
+    var animateDeg = (reverse) ? -180 : 0;
+    var id = setInterval(frame, 2);
+    var to = (reverse) ? 0 : -180;
 
     function frame() {
       if (animateDeg == to) {
@@ -255,11 +291,25 @@ var pdfViewer = {
           clearInterval(id);
           callback = (callback === undefined) ? '': callback(true);
         } else {
-          animateDeg += (reverse) ? -1 : 1;
+          animateDeg += (reverse) ? 5 : -5;
           page.style.transform = "rotateY("+animateDeg+"deg)"
         }
     }
 
+  },
+
+  /*
+   * Animation workaround for ie
+   * @Param {domObj} page - the animated page
+   *        {bool} reverse - reverses the animation
+  */
+  animatePageIE: function(page, reverse) {
+    if (reverse) {
+      page.classList.remove("showIe")
+
+    } else {
+      page.classList.add("showIe")
+    }
   }
 
 }
