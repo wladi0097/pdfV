@@ -1,5 +1,7 @@
 # (pdfV) Pdf Book like Viewer
 
+![demo gif](https://raw.githubusercontent.com/wladi0097/pdfV/master/demo/demo.gif)
+
 ### Tested and works with:
 
 | Internet Explorer 	| Edge 	| Chrome 	| Firefox 	| Safari 	|
