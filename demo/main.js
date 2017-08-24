@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", function(event) {
   var dom = document.getElementById('pdfViewer')
-  pdfViewer.new({file: "./demo/yes.pdf", dom: dom, preload: 10})
+
+  var myPage = pdfV.new({file: "./demo/yes.pdf", dom: dom, preload: 10})
+
+  myPage.on('pdfLoaded', function () {
+    myPage.build();
+  })
+
 })

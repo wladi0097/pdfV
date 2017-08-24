@@ -33,25 +33,75 @@ using the ``demo/yes.pdf`` and ``demo/main.js``
 5. get the dom element and run pdfV with the location to your pdf:
 
 ```javascript
- var dom = document.getElementById('pdfViewer')
+var dom = document.getElementById('pdfViewer')
 
- pdfViewer.new({
- 	file: "./yes.pdf",
- 	dom: dom,
- })
+var myPage = pdfV.new({file: "./demo/yes.pdf", dom: dom})
+
+myPage.on('pdfLoaded', function () {
+  myPage.build();
+})
 ```
 
 6. Profit ?
 
 ## Options
-The folloing Options can be used in ``pdfViewer.new(  OPTIONS  )``
+The following Options can be used in ``pdfViewer.new(  OPTIONS  )``
 ```JSON
 file: "",         // the location of your .pdf file
 dom: domObj,      // the given dom object to load the whole pdfV in
 preload: 2,       // how many pages should be loaded on activation  - DEFAULT: 3
 ```
 
+## API
+
+Create an instance:
+```javascript
+var dom = document.getElementById('pdfViewer')
+var myPage = pdfV.new({file: "./demo/yes.pdf", dom: dom})
+```
+
+### Events
+```javascript
+myPage.on('pdfLoaded', function(res) {
+  // gets fired after the pdf is ready
+  // ! IMPORTANT ! you can access the pdf info only after load.
+  // Check "How does it work ?" to see the usage
+});
+
+myPage.on('domCreated', function(res) {
+  // gets fired after the dom elements have been created
+  // @Param {bool} res - conformation, True if all went ok
+});
+
+myPage.on('PageLoaded', function(res) {
+  // gets fired after an pdf page load
+  // @Param {int} res - the loaded page of the pdf
+});
+```
+
+### Values
+```javascript
+myPage.dom; // {domObj} Your Dom element
+myPage.domCreated; // {bool} if dom is created
+myPage.pagesLoaded; // {[int]} all loaded pages
+```
+
+### Methods
+```javascript
+myPage.on(EventName, ()=>{}); // register an event
+
+myPage.isPdfLoaded(); // returns true if the pdf is loaded
+myPage.isDomCreated(); // returns true if the dom is created
+
+myPage.build(int); // created the dom and append {int} pages
+myPage.createDom(()=>{}); // only creates the dom
+myPage.loadPage(int, ()=>{}) // load the {int} page of the pdf
+myPage.firstLoadPages(int); // loads all pages till {int}
+```
+
 ## Work on it
+with``npm install`` you can get all the devtools needed.
+
 I am using [Gulp](https://gulpjs.com/) to concat the ``.js`` files. Just run ``gulp`` to do this.  
 If you just want to edit the ``pdfV.js``, then you can just run ``gulp js``.
 

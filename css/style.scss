@@ -30,8 +30,8 @@ html {
       z-index: 0;
     }
 
-    .front,
-    .back {
+    .pdfV_front,
+    .pdfV_back {
       width: 100%;
       height: 100%;
       -webkit-backface-visibility: hidden;
@@ -46,12 +46,12 @@ html {
       }
     }
 
-    .front {
+    .pdfV_front {
       z-index: 2;
       transform: rotateY(0deg);
     }
 
-    .back {
+    .pdfV_back {
       transform: rotateY(180deg);
     }
 
@@ -67,10 +67,11 @@ html {
   .showIe {
     left: 0 !important;
 
-    .back {
+    .pdfV_back {
       z-index: 4;
       transform: rotateY(0deg) !important;
     }
   }
+
 
 }
