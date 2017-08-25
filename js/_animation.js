@@ -4,22 +4,22 @@
  * @Param {domObj} path - the page to fix
 */
 pdfV.zIndexFix = function(path) {
-  path.style.zIndex = "2";
+  path.style.zIndex = '2';
 
   if (path.previousSibling) {
-    path.previousSibling.style.zIndex = "0";
-    if(path.previousSibling.previousSibling) {
-      path.previousSibling.previousSibling.style.zIndex = "-1";
+    path.previousSibling.style.zIndex = '0';
+    if (path.previousSibling.previousSibling) {
+      path.previousSibling.previousSibling.style.zIndex = '-1';
     }
   }
 
   if (path.nextSibling) {
-    path.nextSibling.style.zIndex = "1";
+    path.nextSibling.style.zIndex = '1';
     if (path.nextSibling.nextSibling) {
-      path.nextSibling.nextSibling.style.zIndex = "-1";
+      path.nextSibling.nextSibling.style.zIndex = '-1';
     }
   }
-}
+};
 
 
 /*
@@ -29,7 +29,6 @@ pdfV.zIndexFix = function(path) {
  * @returns {bool} callback - after completed
 */
 pdfV.animatePage = function(page, reverse, callback) {
-
   // ie workaround
   if (this.iE) {
     this.animatePageIE(page, reverse);
@@ -40,7 +39,9 @@ pdfV.animatePage = function(page, reverse, callback) {
   var animateDeg = (reverse) ? -180 : 0;
   var id = setInterval(frame, 2);
   var to = (reverse) ? 0 : -180;
-
+  /*
+   * The single Frame of the animation
+  */
   function frame() {
     if (animateDeg == to) {
         pdfV.inputBlockedByAnimation = false;
@@ -48,11 +49,10 @@ pdfV.animatePage = function(page, reverse, callback) {
         callback = (callback === undefined) ? '': callback(true);
       } else {
         animateDeg += (reverse) ? 5 : -5;
-        page.style.transform = "rotateY("+animateDeg+"deg)"
+        page.style.transform = 'rotateY('+animateDeg+'deg)';
       }
   }
-
-}
+};
 
 /*
  * Animation workaround for ie
@@ -61,9 +61,8 @@ pdfV.animatePage = function(page, reverse, callback) {
 */
 pdfV.animatePageIE = function(page, reverse) {
   if (reverse) {
-    page.classList.remove("showIe")
-
+    page.classList.remove('showIe');
   } else {
-    page.classList.add("showIe")
+    page.classList.add('showIe');
   }
-}
+};

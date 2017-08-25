@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/wladi0097/pdfV#readme",
   "devDependencies": {
+    "eslint-config-google": "^0.9.1",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-uglify": "^3.0.0"

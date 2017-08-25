@@ -3,33 +3,32 @@
  *  - _buildElements.js - The HTML Generator
  *  - _pdfViewerElement.js - A PDFV instance
 */
-
 var pdfV = {
-
   pdfViewerElements: [],
   iE: false,
-
-
   /*
    * Creates an new pdfViewer
    * @Param {obj} init:
    *               {string} file - URL to the pdf document
    *               {domObj} dom - Dom of the Viewer
   */
-  new: function(init) {
+  new: function(init, build) {
     var _this = this;
-    this.iE = this.isIE()
+    this.iE = this.isIE();
 
-    //creates instace (see pdfViewerElements.js)
-    this.pdfViewerElements.push(_this.pdfViewerElementsCreator(init))
-    var obj = this.pdfViewerElements[_this.pdfViewerElements.length -1]
-
-
-    //first load the file
+    // creates instace (see pdfViewerElements.js)
+    this.pdfViewerElements.push(_this.pdfViewerElementsCreator(init));
+    var obj = this.pdfViewerElements[_this.pdfViewerElements.length -1];
+    // first load the file
     this.loadPdfFile(init.file, function(pdf) {
+      // pass the pdf to the obj
       _this.pdfViewerElementsAddPdf(obj, pdf);
       obj.trigger('pdfLoaded', true);
-    })
+
+      if (build && typeof build === 'function') {
+        obj.build();
+      }
+    });
 
     return obj;
   },
@@ -41,8 +40,8 @@ var pdfV = {
   */
   loadPdfFile: function(file, callback) {
     PDFJS.getDocument(file).then(function(pdf) {
-      callback(pdf)
-    })
+      callback(pdf);
+    });
   },
 
   /*
@@ -51,7 +50,7 @@ var pdfV = {
   */
   isIE: function() {
     userAgent = navigator.userAgent;
-    return userAgent.indexOf("MSIE ") > -1 || userAgent.indexOf("Trident/") > -1;
+    return userAgent.indexOf('MSIE ') > -1 || userAgent.indexOf('Trident/') > -1;
   },
 
   /*
@@ -66,77 +65,4 @@ var pdfV = {
       }
     }
   },
-
-  /*
-   * creates click Events on every page
-  */
-  bindPageEvents: function() {
-    var front = document.getElementsByClassName('pdfV_front');
-    var back = document.getElementsByClassName('pdfV_back');
-
-    for (var i = 0; i < front.length; i++) {
-      front[i].addEventListener('click', this.nextPage)
-      back[i].addEventListener('click', this.previousPage)
-    }
-  },
-
-  /*
-   * Loads the Pages when its needed
-   * @Param {domObj} elem - the next two fields
-   *        {int} len - how many to load
-  */
-  lazyload: function(elem, len) {
-
-    for (var i = 0; i < len; i++) {
-
-      if(!elem.previousSibling)
-        return;
-      elem = elem.previousSibling
-
-      for (var k = 0; k < 2; k++) {
-
-        var canvas = elem.children[k].children[0];
-        // if the page isnt loaded yet
-        if (canvas.className !== 'loaded') {
-          var splited = canvas.id.split('_');
-          this.getPdfElementByFingerprint(splited[0]).loadPage(parseInt(splited[1]))
-        };
-
-      }
-    }
-  },
-
-  inputBlockedByAnimation: false,
-  /*
-   * Show next page of instance
-  */
-  nextPage: function(e) {
-    if(pdfViewer.inputBlockedByAnimation)
-      return
-
-    path = e.currentTarget.parentNode
-
-    pdfV.animatePage(path, false, function() {
-
-      // load next pages
-      pdfV.lazyload(path, 2)
-
-    });
-
-    pdfV.zIndexFix(path);
-  },
-
-
-  /*
-   * Show last page of instance
-  */
-  previousPage: function(e) {
-    if(pdfV.inputBlockedByAnimation)
-      return
-
-    path = e.currentTarget.parentNode
-    pdfV.animatePage(path, true);
-    pdfV.zIndexFix(path);
-  }
-
-}
+};
