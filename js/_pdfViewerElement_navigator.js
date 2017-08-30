@@ -69,6 +69,8 @@ var _pdfViewerElementNavigator = {
         this.currentPage += 2;
     } else if (this.currentPage <= this.numPages -1) {
       this.currentPage += 1;
+    } else {
+      return;
     }
 
     _this = this;

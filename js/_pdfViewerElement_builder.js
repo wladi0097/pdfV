@@ -41,7 +41,7 @@ var _pdfViewerElementBuilder = {
   loadPage: function(number, callback) {
     if (!this.isDomCreated
        || number > this.numPages
-       || number === 'blank'
+       || !number
        || this.pagesLoaded.indexOf(number) !== -1) {
          return false;
        }
