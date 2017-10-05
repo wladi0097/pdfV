@@ -1,6 +1,6 @@
-# (pdfV) Pdf Book like Viewer
-
-![demo gif](https://raw.githubusercontent.com/wladi0097/pdfV/master/demo/demo.gif)
+![pdfV logo](https://raw.githubusercontent.com/wladi0097/pdfV/master/demo/logo.png)
+## Pdf Book like Viewer
+Include your Pdf files into your web application and read them like a book.
 
 ### Tested and works with:
 
@@ -8,9 +8,10 @@
 |-------------------	|------	|--------	|---------	|--------	|
 | 11  (no animations)|  40   |   60   	|    55   	|   10   	|
 
-### Demo:
+## Demo:
+![demo gif](https://raw.githubusercontent.com/wladi0097/pdfV/master/demo/demo.gif)
 
-##### [Click me](http://wladi0097.github.io/pdfV)
+URL to the working demo: [Click me](http://wladi0097.github.io/pdfV)
 
 Using the ``demo/yes.pdf`` and ``demo/main.js``
 
@@ -18,11 +19,9 @@ Using the ``demo/yes.pdf`` and ``demo/main.js``
 
  * Load .pdf Files
  * Book like view
+ * Simple API
  * Preload Pages when needed
  * Works on the most used browsers
- * No jQuery
- * Not made with ES6 or new css features, that every browser can run it
-
 
 ## How does it work ?
 
